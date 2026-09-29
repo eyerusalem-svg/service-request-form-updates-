@@ -464,7 +464,24 @@ function prepareSessionStep() {
       notes: val("fNotes"),
     };
   }
-  function showSuccess() {
+    function showSuccess() {
+    // Name (first name only)
+    $("etlConfirmName").textContent = val("fName").split(" ")[0] || "there";
+
+    // Date, e.g. "Sat, Oct 3"
+    var d = new Date($("fDate").value + "T00:00:00");
+    $("etlConfirmDate").textContent = isNaN(d)
+      ? "-"
+      : d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+    // Session: the specific session, or "Full Day" when the session step was skipped
+    $("etlConfirmSession").textContent =
+      radioVal("dayPeriod") === "Full Day" ? "Full Day" : (radioVal("sessionType") || "-");
+
+    // Guests
+    var n = parseInt($("fGuests").value, 10) || 0;
+    $("etlConfirmGuests").textContent = n + (n === 1 ? " person" : " people");
+
     formWrap.style.display = "none";
     formSuccess.style.display = "block";
   }
