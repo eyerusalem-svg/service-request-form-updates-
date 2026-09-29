@@ -92,7 +92,7 @@
   var MAX_LEAD_DAYS = 7;
   var BACK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>';
 
-  var STEPS = ["contact", "otp", "date", "session", "guests", "includes", "menuType", "menuDetails", "budget", "location", "channel", "comms", "notes"];
+  var STEPS = ["contact", "otp", "date", "period", "session", "guests", "includes", "menuType", "menuDetails", "budget", "location", "channel", "comms", "notes"];
 
   var form = document.getElementById("etlCateringForm");
   var formWrap = document.getElementById("etlFormWrap");
@@ -107,6 +107,24 @@
   var current = "contact";
   var verifiedPhone = ""; // phone that already passed OTP, so back/forward doesn't re-send a code
   var submitting = false;
+
+// Full Day skips the "session" step.
+function activeSteps() {
+  return radioVal("dayPeriod") === "Full Day"
+    ? STEPS.filter(function (n) { return n !== "session"; })
+    : STEPS;
+}
+
+// Shows only the sessions that belong to the chosen period.
+function prepareSessionStep() {
+  var period = radioVal("dayPeriod");
+  $("etlSessionTitle").textContent = "Which " + period.toLowerCase() + " session do you need?";
+  form.querySelectorAll(".etlw-option-card[data-period]").forEach(function (card) {
+    var show = card.getAttribute("data-period") === period;
+    card.hidden = !show;
+    if (!show) card.querySelector("input").checked = false;
+  });
+}
 
   /* ---------- helpers ---------- */
   function $(id) { return document.getElementById(id); }
@@ -243,24 +261,27 @@
   });
 
   /* ---------- navigation ---------- */
-  function updateProgress() {
-    var idx = STEPS.indexOf(current);
-    progressLabel.textContent = "Step " + (idx + 1) + " of " + STEPS.length;
-    progressFill.style.width = ((idx + 1) / STEPS.length) * 100 + "%";
+    function updateProgress() {
+    var list = activeSteps();
+    var idx = list.indexOf(current);
+    progressLabel.textContent = "Step " + (idx + 1) + " of " + list.length;
+    progressFill.style.width = ((idx + 1) / list.length) * 100 + "%";
   }
   function goTo(name) {
     current = name;
     STEPS.forEach(function (n) { stepEls[n].classList.toggle("etlw-step-active", n === name); });
     if (name === "otp") updateOtpSubtitle();
+    if (name === "session") prepareSessionStep();
     clearErr();
     updateProgress();
     updateContinue();
   }
   function goBack() {
-    var idx = STEPS.indexOf(current);
+    var list = activeSteps();
+    var idx = list.indexOf(current);
     if (idx <= 0) return;
     // OTP is already verified, so going back from "date" returns to the contact step.
-    goTo(current === "date" ? "contact" : STEPS[idx - 1]);
+    goTo(current === "date" ? "contact" : list[idx - 1]);
   }
 
   /* ---------- validation ---------- */
@@ -280,8 +301,10 @@
         if (!d.value) return ["Please pick a date.", d];
         if (d.value < d.min || d.value > d.max) return ["Please pick a date within the next 7 days.", d];
         return null;
+           case "period":
+        return radioVal("dayPeriod") ? null : ["Please choose the suitable time for your catering service.", grp("dayPeriod")];
       case "session":
-        return checkedVals("sessionType").length ? null : ["Please select at least one session type.", grp("sessionType")];
+        return radioVal("sessionType") ? null : ["Please choose one session.", grp("sessionType")];
       case "guests":
         return parseInt($("fGuests").value, 10) >= 1 ? null : ["Enter at least 1 person.", $("fGuests")];
       case "includes":
@@ -380,7 +403,8 @@
     if (err) { showErr(err[0], err[1]); return; }
     if (current === "contact") return handleContactNext(btn);
     if (current === "otp") return handleOtpNext(btn);
-    goTo(STEPS[STEPS.indexOf(current) + 1]);
+     var list = activeSteps();
+    goTo(list[list.indexOf(current) + 1]);
   }
 
   /* ---------- events ---------- */
@@ -402,13 +426,10 @@
     updateContinue();
   });
 
-  form.addEventListener("change", function (e) {
-    var t = e.target;
-    // Full Day is exclusive: picking it clears other sessions; picking another clears Full Day.
-    if (t.name === "sessionType" && t.checked) {
-      form.querySelectorAll('input[name="sessionType"]').forEach(function (o) {
-        if (o !== t && (t.value === "Full Day" || o.value === "Full Day")) o.checked = false;
-      });
+   form.addEventListener("change", function (e) {
+    // Changing the period clears any previously chosen session.
+    if (e.target.name === "dayPeriod") {
+      form.querySelectorAll('input[name="sessionType"]').forEach(function (o) { o.checked = false; });
     }
     updateContinue();
   });
@@ -429,7 +450,8 @@
       fullName: val("fName"),
       phone: fullPhone(),
       serviceDate: $("fDate").value,
-      sessionType: checkedVals("sessionType"),
+      sessionPeriod: radioVal("dayPeriod"),
+      sessionType: [radioVal("dayPeriod") === "Full Day" ? "Full Day" : radioVal("sessionType")],
       numberOfPeople: parseInt($("fGuests").value, 10),
       cateringMenuSelection: checkedVals("cateringMenuSelection"),
       cuisineType: checkedVals("cuisineType"),
