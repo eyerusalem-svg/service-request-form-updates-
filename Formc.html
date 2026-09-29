@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Etalem Catering Request</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="etalem-catering.css" />
+</head>
+<body>
+
+<!-- CATERING REQUEST WIZARD — 13 steps: contact, OTP, then 11 catering steps, then confirmation -->
+<div class="etl-request-card" id="etlCateringCard">
+  <div id="etlFormWrap">
+    <div class="etlw-progress-label" id="etlProgressLabel">Step 1 of 13</div>
+    <div class="etlw-progress-track"><div class="etlw-progress-fill" id="etlProgressFill"></div></div>
+
+    <form id="etlCateringForm" novalidate>
+
+      <!-- 1. Contact -->
+      <div class="etlw-step etlw-step-active" data-step="contact">
+        <h3>Let's plan your catering.</h3>
+        <p class="etlw-subtitle">Tell us how to reach you.</p>
+        <div class="etl-form-group">
+          <label for="fName">Full name</label>
+          <input type="text" id="fName" name="name" placeholder="e.g. Hana Tesfaye" autocomplete="name" required />
+        </div>
+        <div class="etl-form-group">
+          <label for="fPhone">Phone number</label>
+          <div class="etlw-phone-row">
+            <span class="etlw-phone-prefix">+251</span>
+            <input type="tel" id="fPhone" name="phone" placeholder="9XX XXX XXX or 7XX XXX XXX" autocomplete="tel" inputmode="numeric" pattern="[79][0-9]{8}" required />
+          </div>
+        </div>
+        <div class="etlw-consent-row">
+          <label class="etlw-consent-check">
+            <input type="checkbox" id="fConsent" name="privacyConsent" required />
+            <span class="etlw-consent-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            </span>
+            <span class="etlw-consent-text">I agree to GoodayOn verifying and storing my phone number as described in the <a href="https://gooday.io/gooday-privacy-policy" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-continue" data-next disabled>Get Started</button>
+        </div>
+        <p class="etlw-footer-note">Your information stays private and is only used to handle your catering request.</p>
+      </div>
+
+      <!-- 2. OTP verification -->
+      <div class="etlw-step" data-step="otp">
+        <h3>Verify it's you.</h3>
+        <p class="etlw-subtitle" id="etlOtpSubtitle">We sent a 6-digit code to +251 9** *** ***.</p>
+        <div class="etlw-otp-row" id="etlOtpRow">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" autocomplete="one-time-code" aria-label="Digit 1" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" aria-label="Digit 2" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" aria-label="Digit 3" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" aria-label="Digit 4" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" aria-label="Digit 5" />
+          <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="etlw-otp-input" aria-label="Digit 6" />
+        </div>
+        <div class="etlw-otp-resend">
+          Didn't get a code?
+          <button type="button" class="etlw-otp-resend-btn" id="etlOtpResendBtn" disabled>Resend in <span id="etlOtpCountdown">01:00</span></button>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next disabled>Verify &amp; Continue</button>
+        </div>
+      </div>
+
+      <!-- 3. Date -->
+      <div class="etlw-step" data-step="date">
+        <h3>When do you need the catering?</h3>
+        <p class="etlw-subtitle">Please note we currently support requests up to 7 days out.</p>
+        <div class="etl-form-group">
+          <label for="fDate">Event date</label>
+          <input type="date" id="fDate" name="date" />
+        </div>
+        <div class="etlw-note"><span>Need more than one day? Add the other dates in the notes at the end.</span></div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 4. Session type (multi-select, Full Day exclusive) -->
+      <div class="etlw-step" data-step="session">
+        <h3>What type of session is this?</h3>
+        <p class="etlw-subtitle">Select all that apply. Full Day covers the whole day, so it can't be combined with other sessions.</p>
+        <div class="etlw-option-list" data-group="sessionType">
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Breakfast" /><b>Breakfast</b><span>7:00 AM – 10:00 AM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Full Day" /><b>Full Day</b><span>7:00 AM – 5:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Tea Break" /><b>Tea Break</b><span>9:00 AM – 11:00 AM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Brunch" /><b>Brunch</b><span>10:00 AM – 1:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Lunch" /><b>Lunch</b><span>11:00 AM – 3:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Afternoon Tea" /><b>Afternoon Tea</b><span>3:00 PM – 5:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Early Cocktail" /><b>Early Cocktail</b><span>4:00 PM – 7:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Dinner" /><b>Dinner</b><span>6:00 PM – 9:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Evening Reception" /><b>Evening Reception</b><span>6:00 PM – 10:00 PM</span></label>
+          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Late Night" /><b>Late Night</b><span>9:00 PM – 12:00 AM</span></label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 5. Headcount -->
+      <div class="etlw-step" data-step="guests">
+        <h3>How many people are you catering for?</h3>
+        <p class="etlw-subtitle">If the number differs by session, tell us in the notes at the end.</p>
+        <div class="etlw-stepper">
+          <button type="button" class="etlw-stepper-btn" data-dir="-1" aria-label="Fewer">&minus;</button>
+          <div class="etl-form-group"><input type="number" id="fGuests" name="guests" min="1" value="10" inputmode="numeric" aria-label="Number of people" /></div>
+          <button type="button" class="etlw-stepper-btn" data-dir="1" aria-label="More">+</button>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 6. What's included -->
+      <div class="etlw-step" data-step="includes">
+        <h3>What would you like included?</h3>
+        <p class="etlw-subtitle">Select all that apply.</p>
+        <div class="etl-checkbox-group" data-group="cateringMenuSelection">
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Cocktail/Finger Foods" /> Cocktail/Finger Foods</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Full-Course Meal" /> Full-Course Meal</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Water" /> Water</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Tea &amp; Coffee" /> Tea &amp; Coffee</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Soft Drinks" /> Soft Drinks</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Fruits" /> Fruits</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cateringMenuSelection" value="Cakes" /> Cakes</label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 7. Menu type (multi-select) -->
+      <div class="etlw-step" data-step="menuType">
+        <h3>What type of menu are you looking for?</h3>
+        <p class="etlw-subtitle">Select all that apply.</p>
+        <div class="etl-checkbox-group" data-group="cuisineType">
+          <label class="etl-checkbox-option"><input type="checkbox" name="cuisineType" value="Western" /> Western</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cuisineType" value="Local" /> Local</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cuisineType" value="Vegan" /> Vegan</label>
+          <label class="etl-checkbox-option"><input type="checkbox" name="cuisineType" value="Non-Fasting" /> Non-Fasting</label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 8. Menu details -->
+      <div class="etlw-step" data-step="menuDetails">
+        <h3>Tell us more about what you'd like on the menu.</h3>
+        <p class="etlw-subtitle">Specific dishes, cuisines, dietary needs, anything you have in mind.</p>
+        <div class="etl-form-group">
+          <textarea id="fMenu" name="menuDetails" maxlength="500" placeholder="e.g. Kitfo, Biryani, vegan options for 3 guests, no shellfish" aria-label="Menu details"></textarea>
+          <span class="etl-char-count" id="fMenuCount">0/500 characters used</span>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 9. Budget -->
+      <div class="etlw-step" data-step="budget">
+        <h3>What's your budget per person (per plate) in ETB?</h3>
+        <div class="etl-form-group">
+          <div class="etlw-price-row">
+            <span class="etlw-phone-prefix">ETB</span>
+            <input type="number" id="fBudget" name="employerBudget" min="1" inputmode="numeric" placeholder="e.g. 600" aria-label="Budget per person in ETB" />
+          </div>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 10. Location + mandatory landmark -->
+      <div class="etlw-step" data-step="location">
+        <h3>Where is the event?</h3>
+        <div class="etl-form-group">
+          <label for="fLocation">Area / address</label>
+          <input type="text" id="fLocation" name="location" placeholder="e.g. Bole, Sarbet, CMC..." autocomplete="address-level2" />
+        </div>
+        <div class="etl-form-group">
+          <label for="fLandmark">Nearest known landmark</label>
+          <input type="text" id="fLandmark" name="landmark" placeholder="e.g. near Friendship Building..." />
+        </div>
+        <div class="etlw-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" /><circle cx="12" cy="10" r="3" /></svg>
+          <span>This helps us plan delivery and setup. Your exact address is shared only with the team handling your order.</span>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 11. Marketing channel -->
+      <div class="etlw-step" data-step="channel">
+        <h3>How did you find Etalem?</h3>
+        <div class="etlw-option-list" data-group="marketingChannel">
+          <label class="etlw-option-card"><input type="radio" name="marketingChannel" value="Friends/Family" /><b>Friends/Family</b></label>
+          <label class="etlw-option-card"><input type="radio" name="marketingChannel" value="Instagram" /><b>Instagram</b></label>
+          <label class="etlw-option-card"><input type="radio" name="marketingChannel" value="Tiktok" /><b>Tiktok</b></label>
+          <label class="etlw-option-card"><input type="radio" name="marketingChannel" value="LinkedIn" /><b>LinkedIn</b></label>
+          <label class="etlw-option-card"><input type="radio" name="marketingChannel" value="Previous Customer" /><b>Previous Customer</b></label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 12. Preferred communication -->
+      <div class="etlw-step" data-step="comms">
+        <h3>How would you like us to reach you?</h3>
+        <div class="etlw-option-list" data-group="preferredCommunicationChannel">
+          <label class="etlw-option-card"><input type="radio" name="preferredCommunicationChannel" value="WhatsApp" /><b>WhatsApp</b></label>
+          <label class="etlw-option-card"><input type="radio" name="preferredCommunicationChannel" value="SMS" /><b>SMS</b></label>
+          <label class="etlw-option-card"><input type="radio" name="preferredCommunicationChannel" value="Call" /><b>Call</b></label>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="button" class="etlw-continue" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- 13. Notes + submit -->
+      <div class="etlw-step" data-step="notes">
+        <h3>Anything else you'd like us to know?</h3>
+        <div class="etl-form-group">
+          <label for="fNotes">Additional notes <span class="etlw-optional-tag">Optional</span></label>
+          <textarea id="fNotes" name="notes" maxlength="500" placeholder="Venue access, serving equipment, allergies, dates for a multi-day event, or any special requests..."></textarea>
+          <span class="etl-char-count" id="fNotesCount">0/500 characters used</span>
+        </div>
+        <div class="etlw-step-actions">
+          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+          <button type="submit" class="etlw-continue" id="etlSubmitBtn">Send My Request</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Closing screen (no pricing shown) -->
+  <div class="etlw-confirm" id="etlFormSuccess">
+    <div class="etlw-confirm-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e21e81" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+    </div>
+    <h3>Thanks!</h3>
+    <p>Our team will review your request and reach out shortly with a menu and pricing.</p>
+  </div>
+</div>
+
+<script src="etalem-catering.js"></script>
+</body>
+</html>
