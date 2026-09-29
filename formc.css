@@ -175,10 +175,14 @@ button { font-family: inherit; border: 0; cursor: pointer; background: none; }
 .etl-field-error { color: #d92a4c; font-size: 12px; font-weight: 700; line-height: 1.4; margin-top: 4px; }
 
 /* Confirmation */
-.etlw-confirm { display: none; text-align: center; padding: 6px 4px 4px; }
-.etlw-confirm-icon {
-  width: 56px; height: 56px; border-radius: 50%; background: var(--m);
-  display: flex; align-items: center; justify-content: center; margin: 0 auto 18px;
-}
-.etlw-confirm h3 { font-size: 20px; margin: 0 0 8px; }
-.etlw-confirm p { font-size: 14px; color: var(--is); max-width: 340px; margin: 0 auto; line-height: 1.6; }
+.etlw-confirm { display: none; text-align: center; padding: 12px 4px 4px; }
+.etlw-confirm-icon { width: 76px; height: 76px; border-radius: 50%; background: var(--b); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; box-shadow: 0 0 0 10px rgba(226,30,129,0.12), 0 16px 30px -10px rgba(226,30,129,0.55); animation: etlPop 0.5s var(--z); }
+.etlw-confirm-icon svg { width: 32px; height: 32px; }
+@keyframes etlPop { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.etlw-confirm h3 { font-size: 24px; font-weight: 800; margin: 0 0 8px; }
+.etlw-confirm-lead { font-size: 14px; color: var(--is); font-weight: 500; max-width: 360px; margin: 0 auto 24px; line-height: 1.6; }
+.etlw-confirm-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.etlw-confirm-summary div { background: var(--m); border-radius: 12px; padding: 11px 8px; }
+.etlw-confirm-summary small { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--is); margin-bottom: 3px; }
+.etlw-confirm-summary b { font-size: 13.5px; font-weight: 700; color: var(--b); }
+@media (max-width: 480px) { .etlw-confirm-summary { grid-template-columns: 1fr; } }
