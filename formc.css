@@ -122,28 +122,10 @@ button { font-family: inherit; border: 0; cursor: pointer; background: none; }
 .etlw-option-card input { position: absolute; opacity: 0; width: 0; height: 0; }
 .etlw-option-card:has(input:checked) { border-color: var(--b); background: var(--m); }
 .etlw-option-card:has(input:focus-visible) { box-shadow: 0 0 0 3px rgba(226, 30, 129, 0.25); }
+.etlw-option-card[hidden] { display: none; }
 .etlw-option-card b { font-weight: 700; font-size: 14.5px; }
 .etlw-option-card:has(input:checked) b { color: var(--bd); }
 .etlw-option-card span { font-size: 12px; color: var(--is); }
-
-/* Session chips (grouped, two per row) */
-.etlw-group-label { margin: 14px 0 8px; font-size: 12px; font-weight: 600; color: var(--is); }
-.etlw-group-label:first-child { margin-top: 0; }
-.etlw-chip-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.etlw-chip-row.etlw-chip-full { grid-template-columns: 1fr; }
-.etlw-chip { position: relative; display: block; cursor: pointer; }
-.etlw-chip input { position: absolute; opacity: 0; width: 0; height: 0; }
-.etlw-chip-body {
-  display: flex; flex-direction: column; gap: 1px; padding: 9px 12px;
-  border: 1.5px solid #e8dce4; border-radius: 12px; background: #fff;
-  transition: border-color 0.2s var(--z), background 0.2s var(--z);
-}
-.etlw-chip-full .etlw-chip-body { flex-direction: row; justify-content: space-between; align-items: center; }
-.etlw-chip-body b { font-size: 13.5px; font-weight: 700; }
-.etlw-chip-body span { font-size: 11.5px; color: var(--is); }
-.etlw-chip input:checked + .etlw-chip-body { border-color: var(--b); background: var(--m); }
-.etlw-chip input:checked + .etlw-chip-body b { color: var(--bd); }
-.etlw-chip input:focus-visible + .etlw-chip-body { box-shadow: 0 0 0 3px rgba(226, 30, 129, 0.25); }
 
 /* Pill checkboxes */
 .etl-checkbox-group { display: flex; flex-wrap: wrap; gap: 9px; }
