@@ -86,20 +86,32 @@
 
       <!-- 4. Session type (multi-select, Full Day exclusive) -->
       <div class="etlw-step" data-step="session">
-        <h3>What type of session is this?</h3>
-        <p class="etlw-subtitle">Select all that apply. Full Day covers the whole day, so it can't be combined with other sessions.</p>
-        <div class="etlw-option-list" data-group="sessionType">
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Breakfast" /><b>Breakfast</b><span>7:00 AM – 10:00 AM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Full Day" /><b>Full Day</b><span>7:00 AM – 5:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Tea Break" /><b>Tea Break</b><span>9:00 AM – 11:00 AM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Brunch" /><b>Brunch</b><span>10:00 AM – 1:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Lunch" /><b>Lunch</b><span>11:00 AM – 3:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Afternoon Tea" /><b>Afternoon Tea</b><span>3:00 PM – 5:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Early Cocktail" /><b>Early Cocktail</b><span>4:00 PM – 7:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Dinner" /><b>Dinner</b><span>6:00 PM – 9:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Evening Reception" /><b>Evening Reception</b><span>6:00 PM – 10:00 PM</span></label>
-          <label class="etlw-option-card"><input type="checkbox" name="sessionType" value="Late Night" /><b>Late Night</b><span>9:00 PM – 12:00 AM</span></label>
-        </div>
+        <h3>Which sessions do you need?</h3>
+        <p class="etlw-subtitle">Choose all the sessions you need. If you pick Full Day, we'll cover the whole day, so no others are needed.</p>
+        <div class="etlw-session-groups" data-group="sessionType">
+       <p class="etlw-group-label">Whole day</p>
+       <div class="etlw-chip-row etlw-chip-full">
+      <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Full Day"><span class="etlw-chip-body"><b>Full Day</b><span>7:00 AM – 5:00 PM</span></span></label>
+       </div>
+     <p class="etlw-group-label">Morning</p>
+    <div class="etlw-chip-row">
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Breakfast"><span class="etlw-chip-body"><b>Breakfast</b><span>7:00 – 10:00 AM</span></span></label>
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Tea Break"><span class="etlw-chip-body"><b>Tea Break</b><span>9:00 – 11:00 AM</span></span></label>
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Brunch"><span class="etlw-chip-body"><b>Brunch</b><span>10:00 AM – 1:00 PM</span></span></label>
+   </div>
+   <p class="etlw-group-label">Afternoon</p>
+   <div class="etlw-chip-row">
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Lunch"><span class="etlw-chip-body"><b>Lunch</b><span>11:00 AM – 3:00 PM</span></span></label>
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Afternoon Tea"><span class="etlw-chip-body"><b>Afternoon Tea</b><span>3:00 – 5:00 PM</span></span></label>
+   </div>
+   <p class="etlw-group-label">Evening</p>
+  <div class="etlw-chip-row">
+  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Early Cocktail"><span class="etlw-chip-body"><b>Early Cocktail</b><span>4:00 – 7:00 PM</span></span></label>
+  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Dinner"><span class="etlw-chip-body"><b>Dinner</b><span>6:00 – 9:00 PM</span></span></label>
+   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Evening Reception"><span class="etlw-chip-body"><b>Evening Reception</b><span>6:00 – 10:00 PM</span></span></label>
+  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Late Night"><span class="etlw-chip-body"><b>Late Night</b><span>9:00 PM – midnight</span></span></label>
+     </div>
+    </div>
         <div class="etlw-step-actions">
           <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
           <button type="button" class="etlw-continue" data-next>Continue</button>
