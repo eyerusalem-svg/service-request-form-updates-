@@ -398,7 +398,7 @@
   form.addEventListener("input", function (e) {
     if (e.target.id === "fMenu") $("fMenuCount").textContent = e.target.value.length + "/500 characters used";
     if (e.target.id === "fNotes") $("fNotesCount").textContent = e.target.value.length + "/500 characters used";
-    if (e.target.closest(".etl-form-group, .etlw-option-list, .etl-checkbox-group")) clearErr();
+    if (e.target.closest(".etl-form-group, .etlw-option-list, .etl-checkbox-group, [data-group]")) clearErr();
     updateContinue();
   });
 
