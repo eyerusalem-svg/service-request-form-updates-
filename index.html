@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<!-- CATERING REQUEST WIZARD — 13 steps: contact, OTP, then 11 catering steps, then confirmation -->
+<!-- CATERING REQUEST WIZARD — 14 steps (13 when Full Day is chosen): contact, OTP, then catering steps, then confirmation -->
 <div class="etl-request-card" id="etlCateringCard">
   <div id="etlFormWrap">
     <div class="etlw-progress-label" id="etlProgressLabel">Step 1 of 13</div>
@@ -84,40 +84,44 @@
         </div>
       </div>
 
-      <!-- 4. Session type (multi-select, Full Day exclusive) -->
-      <div class="etlw-step" data-step="session">
-        <h3>Which sessions do you need?</h3>
-        <p class="etlw-subtitle">Choose all the sessions you need. If you pick Full Day, we'll cover the whole day, so no others are needed.</p>
-        <div class="etlw-session-groups" data-group="sessionType">
-       <p class="etlw-group-label">Whole day</p>
-       <div class="etlw-chip-row etlw-chip-full">
-      <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Full Day"><span class="etlw-chip-body"><b>Full Day</b><span>7:00 AM – 5:00 PM</span></span></label>
-       </div>
-     <p class="etlw-group-label">Morning</p>
-    <div class="etlw-chip-row">
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Breakfast"><span class="etlw-chip-body"><b>Breakfast</b><span>7:00 – 10:00 AM</span></span></label>
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Tea Break"><span class="etlw-chip-body"><b>Tea Break</b><span>9:00 – 11:00 AM</span></span></label>
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Brunch"><span class="etlw-chip-body"><b>Brunch</b><span>10:00 AM – 1:00 PM</span></span></label>
-   </div>
-   <p class="etlw-group-label">Afternoon</p>
-   <div class="etlw-chip-row">
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Lunch"><span class="etlw-chip-body"><b>Lunch</b><span>11:00 AM – 3:00 PM</span></span></label>
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Afternoon Tea"><span class="etlw-chip-body"><b>Afternoon Tea</b><span>3:00 – 5:00 PM</span></span></label>
-   </div>
-   <p class="etlw-group-label">Evening</p>
-  <div class="etlw-chip-row">
-  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Early Cocktail"><span class="etlw-chip-body"><b>Early Cocktail</b><span>4:00 – 7:00 PM</span></span></label>
-  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Dinner"><span class="etlw-chip-body"><b>Dinner</b><span>6:00 – 9:00 PM</span></span></label>
-   <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Evening Reception"><span class="etlw-chip-body"><b>Evening Reception</b><span>6:00 – 10:00 PM</span></span></label>
-  <label class="etlw-chip"><input type="checkbox" name="sessionType" value="Late Night"><span class="etlw-chip-body"><b>Late Night</b><span>9:00 PM – midnight</span></span></label>
-     </div>
-    </div>
-        <div class="etlw-step-actions">
-          <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
-          <button type="button" class="etlw-continue" data-next>Continue</button>
-        </div>
-      </div>
+      <!-- 4. Day period (single select) -->
+<div class="etlw-step" data-step="period">
+  <h3>Which part of the day do you need?</h3>
+  <p class="etlw-subtitle">Choose the suitable time for your catering service.</p>
+  <div class="etlw-option-list" data-group="dayPeriod">
+    <label class="etlw-option-card"><input type="radio" name="dayPeriod" value="Full Day" /><b>Full Day</b><span>7:00 AM – 5:00 PM</span></label>
+    <label class="etlw-option-card"><input type="radio" name="dayPeriod" value="Morning" /><b>Morning</b><span>7:00 AM – 1:00 PM</span></label>
+    <label class="etlw-option-card"><input type="radio" name="dayPeriod" value="Afternoon" /><b>Afternoon</b><span>11:00 AM – 5:00 PM</span></label>
+    <label class="etlw-option-card"><input type="radio" name="dayPeriod" value="Evening" /><b>Evening</b><span>4:00 PM – midnight</span></label>
+  </div>
+  <div class="etlw-step-actions">
+    <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+    <button type="button" class="etlw-continue" data-next>Continue</button>
+  </div>
+</div>
 
+<!-- 4b. Specific session (single select, filtered by period) -->
+<div class="etlw-step" data-step="session">
+  <h3 id="etlSessionTitle">Which session do you need?</h3>
+  <p class="etlw-subtitle">Choose the session that suits your catering service best.</p>
+  <div class="etlw-option-list" data-group="sessionType">
+    <label class="etlw-option-card" data-period="Morning"><input type="radio" name="sessionType" value="Breakfast" /><b>Breakfast</b><span>7:00 – 10:00 AM</span></label>
+    <label class="etlw-option-card" data-period="Morning"><input type="radio" name="sessionType" value="Tea Break" /><b>Tea Break</b><span>9:00 – 11:00 AM</span></label>
+    <label class="etlw-option-card" data-period="Morning"><input type="radio" name="sessionType" value="Brunch" /><b>Brunch</b><span>10:00 AM – 1:00 PM</span></label>
+
+    <label class="etlw-option-card" data-period="Afternoon"><input type="radio" name="sessionType" value="Lunch" /><b>Lunch</b><span>11:00 AM – 3:00 PM</span></label>
+    <label class="etlw-option-card" data-period="Afternoon"><input type="radio" name="sessionType" value="Afternoon Tea" /><b>Afternoon Tea</b><span>3:00 – 5:00 PM</span></label>
+
+    <label class="etlw-option-card" data-period="Evening"><input type="radio" name="sessionType" value="Early Cocktail" /><b>Early Cocktail</b><span>4:00 – 7:00 PM</span></label>
+    <label class="etlw-option-card" data-period="Evening"><input type="radio" name="sessionType" value="Dinner" /><b>Dinner</b><span>6:00 – 9:00 PM</span></label>
+    <label class="etlw-option-card" data-period="Evening"><input type="radio" name="sessionType" value="Evening Reception" /><b>Evening Reception</b><span>6:00 – 10:00 PM</span></label>
+    <label class="etlw-option-card" data-period="Evening"><input type="radio" name="sessionType" value="Late Night" /><b>Late Night</b><span>9:00 PM – midnight</span></label>
+  </div>
+  <div class="etlw-step-actions">
+    <button type="button" class="etlw-back" data-back aria-label="Go back"></button>
+    <button type="button" class="etlw-continue" data-next>Continue</button>
+  </div>
+</div>
       <!-- 5. Headcount -->
       <div class="etlw-step" data-step="guests">
         <h3>How many people are you catering for?</h3>
